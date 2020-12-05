@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import json
 
 app = Flask(__name__)
 
@@ -26,13 +27,14 @@ def render_request():
 def route_request_done():
     return 'заявка на подбор отправлена'
 
-@app.route('/booking/<id:id_teacher>/<day>/<time>/')
+@app.route('/booking/<int:id_teacher>/<day>/<time>/')
 def route_booking_form(id_teacher, day, time):
     return f'сдеаь будет форма бронирования {id_teacher}'
 
 @app.route('/booking_done/')
 def route_booking_done():
     return 'заявка отправлена'
+
 
 
 app.run('0.0.0.0', 8000)

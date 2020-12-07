@@ -1,11 +1,19 @@
 goals = {"travel": "Для путешествий", "study": "Для учебы", "work": "Для работы", "relocate": "Для переезда"}
 
+days = {"mon": 'Понедельник', "tue": 'Вторник', "wed": 'Среда', "thu": 'Четверг',
+        "fri": 'Пятница', "sat": 'Суббота', "sun": 'Воскресенье'}
+
+times = {"8:00": '8', "10:00": '10', "12:00": '12', "14:00": '14', "16:00": '16',
+         "18:00": '18', "20:00": '20', "22:00": '22'}
+
 teachers = [
 
     {
         "id": 0,
         "name": "Morris Simmmons",
-        "about": "Репетитор американского английского языка. Структурированная система обучения. Всем привет! Я предпочитаю называть себя «тренером» английского языка. Мои занятия похожи на тренировки",
+        "about": "Репетитор американского английского языка. Структурированная "
+                 "система обучения. Всем привет! Я предпочитаю называть себя «тренером» "
+                 "английского языка. Мои занятия похожи на тренировки",
         "rating": 4.2,
         "picture": "https://i.pravatar.cc/300?img=20",
         "price": 900,
@@ -31,7 +39,15 @@ teachers = [
     {
         "id": 1,
         "name": "Lee P",
-        "about": "I am a native speaker and conversation tutor, providing private English conversation lessons using something called Life Learning.This method allows students to take complete control of how and what they learn. It is student-led learning focusing on interests, life goals, enjoyment and effective learning for you, as an individual.Stop wasting time with textbooks, tests and unneccesary pressure. Find a love for learning and speaking English with creativity and freedom. The lessons are completely chosen by you to keep you motivated and driven to achieve your goals.",
+        "about": "I am a native speaker and conversation tutor, providing private English"
+                 " conversation lessons using something called Life Learning.This method"
+                 " allows students to take complete control of how and what they learn."
+                 " It is student-led learning focusing on interests, life goals,"
+                 " enjoyment and effective learning for you, as an individual."
+                 "Stop wasting time with textbooks, tests and unneccesary pressure."
+                 " Find a love for learning and speaking English with creativity and freedom."
+                 " The lessons are completely chosen by you to keep you motivated and"
+                 " driven to achieve your goals.",
         "rating": 4.8,
         "picture": "https://i.pravatar.cc/300?img=19",
         "price": 1200,

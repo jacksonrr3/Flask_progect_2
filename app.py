@@ -2,6 +2,8 @@ import json
 
 from flask import Flask, render_template, request
 
+from data import goals, days, times
+
 app = Flask(__name__)
 
 
@@ -23,10 +25,14 @@ def render_goal(goal):
 @app.route('/profiles/<int:teacher_id>/')
 def render_teacher(teacher_id):
     with open('data_base.json', 'r') as jf:
-        db = json.load(jf)
-        teacher = db['teachers'][teacher_id]
-        goals = db['goals']
-        return render_template('profile.html', teacher=teacher, goals=goals)
+        teachers = json.load(jf)
+        teacher = teachers[teacher_id]
+        return render_template('profile.html',
+                               teacher_id=teacher_id,
+                               teacher=teacher,
+                               goals=goals,
+                               days=days,
+                               times=times)
 
 
 @app.route('/request/')
@@ -41,6 +47,7 @@ def route_request_done():
 
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
 def route_booking(teacher_id, day, time):
+
     return render_template('booking.html')
 
 

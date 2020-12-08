@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, abort, request
 
 from data import goals, days, times
 
@@ -27,7 +27,9 @@ def render_teacher(teacher_id):
     try:
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
-            teacher = teachers[teacher_id]
+            teacher = teachers.get(teacher_id)
+            if teacher is None:
+                abort(404)
         return render_template('profile.html',
                                teacher_id=teacher_id,
                                teacher=teacher,
@@ -35,7 +37,7 @@ def render_teacher(teacher_id):
                                days=days,
                                times=times)
     except IOError:
-        print("An IOError has occurred!")
+        print("An IOError has occurred! Can't read data_base file.")
 
 
 @app.route('/request/')
@@ -50,13 +52,13 @@ def route_request_done():
 
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
 def route_booking(teacher_id, day, time):
-    with open('data_base.json', 'r') as jf:
-        teachers = json.load(jf)
-        teacher = teachers[teacher_id]
-        return render_template('booking.html',
-
-    )
-
+    try:
+        with open('data_base.json', 'r') as jf:
+            teachers = json.load(jf)
+            teacher = teachers[teacher_id]
+        return render_template('booking.html', teacher=teacher, day=day, time=times)
+    except IOError:
+        print("An IOError has occurred! Can't read data_base file.")
 
 @app.route('/booking_done/')
 def route_booking_done():

@@ -144,3 +144,6 @@ cython_debug/
 
 # settings
 .idea/
+
+#test files
+quick_test_app.py

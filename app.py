@@ -24,15 +24,18 @@ def render_goal(goal):
 
 @app.route('/profiles/<int:teacher_id>/')
 def render_teacher(teacher_id):
-    with open('data_base.json', 'r') as jf:
-        teachers = json.load(jf)
-        teacher = teachers[teacher_id]
+    try:
+        with open('data_base.json', 'r') as jf:
+            teachers = json.load(jf)
+            teacher = teachers[teacher_id]
         return render_template('profile.html',
                                teacher_id=teacher_id,
                                teacher=teacher,
                                goals=goals,
                                days=days,
                                times=times)
+    except IOError:
+        print("An IOError has occurred!")
 
 
 @app.route('/request/')
@@ -47,8 +50,12 @@ def route_request_done():
 
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
 def route_booking(teacher_id, day, time):
+    with open('data_base.json', 'r') as jf:
+        teachers = json.load(jf)
+        teacher = teachers[teacher_id]
+        return render_template('booking.html',
 
-    return render_template('booking.html')
+    )
 
 
 @app.route('/booking_done/')

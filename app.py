@@ -4,6 +4,7 @@ from flask import Flask, render_template, abort, request
 
 from data import goals, days, times
 
+
 app = Flask(__name__)
 
 
@@ -27,17 +28,15 @@ def render_teacher(teacher_id):
     try:
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
-            teacher = teachers.get(teacher_id)
-            if teacher is None:
+            if teacher_id >= len(teachers):
                 abort(404)
+            teacher = teachers[teacher_id]
         return render_template('profile.html',
-                               teacher_id=teacher_id,
                                teacher=teacher,
                                goals=goals,
-                               days=days,
-                               times=times)
+                               days=days)
     except IOError:
-        print("An IOError has occurred! Can't read data_base file.")
+        print("An IOError has occurred!")
 
 
 @app.route('/request/')
@@ -53,16 +52,49 @@ def route_request_done():
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
 def route_booking(teacher_id, day, time):
     try:
+        time = time + ':00'
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
+            if teacher_id >= len(teachers) \
+                    or day not in days \
+                    or time not in times:
+                abort(404)
             teacher = teachers[teacher_id]
-        return render_template('booking.html', teacher=teacher, day=day, time=times)
-    except IOError:
-        print("An IOError has occurred! Can't read data_base file.")
 
-@app.route('/booking_done/')
+        return render_template('booking.html',
+                                   teacher=teacher,
+                                   days=days,
+                                   day=day,
+                                   time=time)
+    except IOError:
+        print("An IOError has occurred!")
+
+
+@app.route('/booking_done/', methods=['POST'])
 def route_booking_done():
-    return render_template('booking_done.html')
+    try:
+        with open('data_base.json', 'r') as jf:
+            teachers = json.load(jf)
+
+        client_weekday = request.form.get("clientWeekday")
+        client_time = request.form.get("clientTime")
+        client_teacher = request.form.get("clientTeacher")
+        client_name = request.form.get("clientName")
+        client_phone = request.form.get("clientPhone")
+
+        teachers[int(client_teacher)]["free"][client_weekday][client_time] = False
+
+        with open('data_base.json', 'w') as jf:
+            json.dump(teachers, jf)
+        client_weekday = days[client_weekday]
+        return render_template('booking_done.html',
+                               day=client_weekday,
+                               time=client_time,
+                               client_name=client_name,
+                               client_phone=client_phone
+                               )
+    except IOError:
+        print("An IOError has occurred!")
 
 
 app.run('0.0.0.0', 8000)

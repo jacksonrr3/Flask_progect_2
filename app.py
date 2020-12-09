@@ -1,4 +1,5 @@
 import json
+import operator
 
 from flask import Flask, render_template, abort, request
 
@@ -20,7 +21,18 @@ def render_all():
 
 @app.route('/goals/<goal>/')
 def render_goal(goal):
-    return render_template('goal.html')
+    try:
+        with open('data_base.json', 'r') as jf:
+            teachers = json.load(jf)
+
+        teachers.sort(key=operator.itemgetter("rating"), reverse=True)
+
+        return render_template('goal.html',
+                               goal=goal,
+                               goals=goals,
+                               teachers=teachers)
+    except IOError:
+        print("An IOError has occurred!")
 
 
 @app.route('/profiles/<int:teacher_id>/')
@@ -45,9 +57,24 @@ def render_request():
     return render_template('request.html')
 
 
-@app.route('/request_done/')
+@app.route('/request_done/', methods=['POST'])
 def route_request_done():
-    return render_template('request_done.html')
+    goal = request.form.get("goal")
+    time = request.form.get("time")
+    name = request.form.get("name")
+    phone = request.form.get("phone")
+    req = {'goal': goal, 'time': time, 'name': name, 'phone': phone}
+    with open('booking.json', 'r') as jf:
+        requests = json.load(jf)
+    requests.append(req)
+    with open('booking.json', 'w') as jf:
+        json.dump(requests, jf)
+
+    return render_template('request_done.html',
+                           goal=goal,
+                           time=time,
+                           name=name,
+                           phone=phone)
 
 
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
@@ -66,15 +93,15 @@ def route_booking(teacher_id, day, time):
             teacher = teachers[teacher_id]
 
         return render_template('booking.html',
-                                   teacher=teacher,
-                                   days=days,
-                                   day=day,
-                                   time=time)
+                               teacher=teacher,
+                               days=days,
+                               day=day,
+                               time=time)
     except IOError:
         print("An IOError has occurred!")
 
 
-@app.route('/booking_done/', methods=['POST'])
+@app.route('/booking_done/', methods=['POST', 'GET'])
 def route_booking_done():
     try:
         with open('data_base.json', 'r') as jf:

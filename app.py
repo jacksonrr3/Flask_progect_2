@@ -28,6 +28,7 @@ def render_teacher(teacher_id):
     try:
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
+
             if teacher_id >= len(teachers):
                 abort(404)
             teacher = teachers[teacher_id]
@@ -46,19 +47,22 @@ def render_request():
 
 @app.route('/request_done/')
 def route_request_done():
-    return render_template('request_done,html')
+    return render_template('request_done.html')
 
 
 @app.route('/booking/<int:teacher_id>/<day>/<time>/')
 def route_booking(teacher_id, day, time):
     try:
         time = time + ':00'
+
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
+
             if teacher_id >= len(teachers) \
                     or day not in days \
                     or time not in times:
                 abort(404)
+
             teacher = teachers[teacher_id]
 
         return render_template('booking.html',
@@ -87,6 +91,7 @@ def route_booking_done():
         with open('data_base.json', 'w') as jf:
             json.dump(teachers, jf)
         client_weekday = days[client_weekday]
+
         return render_template('booking_done.html',
                                day=client_weekday,
                                time=client_time,

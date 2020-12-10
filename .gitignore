@@ -147,3 +147,4 @@ cython_debug/
 
 #test files
 quick_test_app.py
+form.html

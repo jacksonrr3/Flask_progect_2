@@ -24,9 +24,35 @@ def render_index():
         print("An IOError has occurred!")
 
 
-@app.route('/all/')
+@app.route('/all/', methods=['POST', 'GET'])
 def render_all():
-    return render_template('all.html')
+
+    with open('data_base.json', 'r') as jf:
+        teachers = json.load(jf)
+        print('open')
+
+        #if request.method == "POST":
+            #selected_value = request.form.get('selected')
+        selected_value = request.args.get('selected')
+        print(selected_value)
+        if selected_value == '1':
+            random.shuffle(teachers)
+        elif selected_value == '2':
+            teachers.sort(key=operator.itemgetter("rating"), reverse=True)
+        elif selected_value == '3':
+            teachers.sort(key=operator.itemgetter("price"), reverse=True)
+        elif selected_value == '4':
+            teachers.sort(key=operator.itemgetter("price"))
+        else:
+            random.shuffle(teachers)
+        print('post')
+        return render_template('all.html',
+                               teachers=teachers,
+                               goals=goals)
+        #else:
+           # print('get', request.args.get('selected'))
+            #return render_template('all.html', teachers=teachers, goals=goals)
+
 
 
 @app.route('/goals/<goal>/')
@@ -45,7 +71,7 @@ def render_goal(goal):
         print("An IOError has occurred!")
 
 
-@app.route('/profiles/<int:teacher_id>/')
+@app.route('/profiles/<int:id>/')
 def render_teacher(teacher_id):
     try:
         with open('data_base.json', 'r') as jf:
@@ -109,7 +135,7 @@ def route_booking(teacher_id, day, time):
         print("An IOError has occurred!")
 
 
-@app.route('/booking_done/', methods=['POST', 'GET'])
+@app.route('/booking_done/', methods=['POST'])
 def route_booking_done():
     try:
         with open('data_base.json', 'r') as jf:

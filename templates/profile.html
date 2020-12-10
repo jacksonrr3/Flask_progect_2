@@ -23,7 +23,7 @@
               <h4 class="mb-4 mt-5">Записаться на пробный урок</h4>
               {% for day, teacher_times in teacher.free.items() %} <!--Loop input days-->
               <h6 class="mt-4">{{ days[day] }}</h6>
-              {% set ns = namespace(not_found=true) %}      <!--Set control variable checking free time a day-->
+              {% set ns = namespace(not_found=true) %}      <!--Set control variable for checking free time a day-->
                 {% for time, free in teacher_times.items() %}
                   {% if free == true%}
                     {% set ns.not_found = false %}

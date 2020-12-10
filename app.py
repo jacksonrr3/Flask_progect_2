@@ -1,9 +1,10 @@
 import json
 import operator
+import random
 
 from flask import Flask, render_template, abort, request
 
-from data import goals, days, times
+from data import goals, days#, times
 
 
 app = Flask(__name__)
@@ -11,7 +12,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def render_index():
-    return render_template('index.html')
+    try:
+        with open('data_base.json', 'r') as jf:
+            teachers = json.load(jf)
+        ch_teachers = random.sample(teachers, 6)
+
+        return render_template('index.html',
+                               teachers=ch_teachers,
+                               goals=goals)
+    except IOError:
+        print("An IOError has occurred!")
 
 
 @app.route('/all/')
@@ -85,9 +95,7 @@ def route_booking(teacher_id, day, time):
         with open('data_base.json', 'r') as jf:
             teachers = json.load(jf)
 
-            if teacher_id >= len(teachers) \
-                    or day not in days \
-                    or time not in times:
+            if teacher_id >= len(teachers) or day not in days:
                 abort(404)
 
             teacher = teachers[teacher_id]

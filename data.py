@@ -1,10 +1,14 @@
-goals = {"travel": "Для путешествий", "study": "Для учебы", "work": "Для работы", "relocate": "Для переезда"}
+goals = {"travel": "Для путешествий",
+         "study": "Для учебы",
+         "work": "Для работы",
+         "relocate": "Для переезда",
+         "programming": "Для программирования"}
 
 days = {"mon": 'Понедельник', "tue": 'Вторник', "wed": 'Среда', "thu": 'Четверг',
         "fri": 'Пятница', "sat": 'Суббота', "sun": 'Воскресенье'}
 
-times = {"8:00": '8', "10:00": '10', "12:00": '12', "14:00": '14', "16:00": '16',
-         "18:00": '18', "20:00": '20', "22:00": '22'}
+#times = {"8:00": '8', "10:00": '10', "12:00": '12', "14:00": '14', "16:00": '16',
+  #       "18:00": '18', "20:00": '20', "22:00": '22'}
 
 teachers = [
 
@@ -235,7 +239,7 @@ teachers = [
         "picture": "https://i.pravatar.cc/300?img=35",
         "rating": 5,
         "price": 1700,
-        "goals": ["relocate", "work"],
+        "goals": ["relocate", "work", "programming"],
         "free": {
 
             "mon": {"8:00": False, "10:00": False, "12:00": False, "14:00": False, "16:00": True, "18:00": True,
@@ -262,7 +266,7 @@ teachers = [
         "picture": "https://i.pravatar.cc/300?img=36",
         "rating": 4.1,
         "price": 1200,
-        "goals": ["work"],
+        "goals": ["work", "programming"],
         "free": {
 
             "mon": {"8:00": False, "10:00": False, "12:00": False, "14:00": False, "16:00": True, "18:00": True,
@@ -289,7 +293,7 @@ teachers = [
         "picture": "https://i.pravatar.cc/300?img=37",
         "rating": 4.7,
         "price": 1100,
-        "goals": ["travel", "study", "work"],
+        "goals": ["travel", "study", "work", "programming"],
         "free": {
 
             "mon": {"8:00": False, "10:00": False, "12:00": False, "14:00": False, "16:00": True, "18:00": True,
@@ -316,7 +320,7 @@ teachers = [
         "picture": "https://i.pravatar.cc/300?img=38",
         "rating": 4.2,
         "price": 900,
-        "goals": ["travel", "work"],
+        "goals": ["travel", "work", "programming"],
         "free": {
 
             "mon": {"8:00": False, "10:00": False, "12:00": False, "14:00": False, "16:00": True, "18:00": True,

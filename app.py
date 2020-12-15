@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 
 def read_data_from_json_file(path):
+    """ reading data from data_base json file, return dict """
     try:
         with open(path, 'r') as jf:
             return json.load(jf)
@@ -19,6 +20,7 @@ def read_data_from_json_file(path):
 
 
 def write_data_to_json_file(path, data):
+    """ writing data to data_base json file"""
     try:
         with open(path, 'w') as jf:
             json.dump(data, jf)
@@ -30,7 +32,6 @@ def write_data_to_json_file(path, data):
 def render_index():
     teachers = read_data_from_json_file('data_base.json')
     ch_teachers = random.sample(teachers, 6)
-
     return render_template('index.html',
                            teachers=ch_teachers,
                            goals=goals)
@@ -89,13 +90,9 @@ def route_request_done():
     name = request.form.get("name")
     phone = request.form.get("phone")
     req = {'goal': goal, 'time': time, 'name': name, 'phone': phone}
-    #with open('booking.json', 'r') as jf:
     requests = read_data_from_json_file('booking.json')
     requests.append(req)
-    #with open('booking.json', 'w') as jf:
-        #json.dump(requests, jf)
     write_data_to_json_file('booking.json', requests)
-
     return render_template('request_done.html',
                            goal=goal,
                            time=time,
@@ -119,31 +116,20 @@ def route_booking(teacher_id, day, time):
 
 @app.route('/booking_done/', methods=['POST'])
 def route_booking_done():
-    #try:
-        #with open('data_base.json', 'r') as jf:
     teachers = read_data_from_json_file('data_base.json')
-
     client_weekday = request.form.get("clientWeekday")
     client_time = request.form.get("clientTime")
     client_teacher = request.form.get("clientTeacher")
     client_name = request.form.get("clientName")
     client_phone = request.form.get("clientPhone")
-
     teachers[int(client_teacher)]["free"][client_weekday][client_time] = False
-
-    #with open('data_base.json', 'w') as jf:
-        #json.dump(teachers, jf)
     write_data_to_json_file('data_base.json', teachers)
     client_weekday = days[client_weekday]
-
     return render_template('booking_done.html',
                            day=client_weekday,
                            time=client_time,
                            client_name=client_name,
-                           client_phone=client_phone
-                           )
-   # except IOError:
-        #print("An IOError has occurred!")
+                           client_phone=client_phone)
 
 
 if __name__ == '__main__':

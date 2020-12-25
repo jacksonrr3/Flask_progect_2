@@ -90,9 +90,9 @@ def route_request_done():
     name = request.form.get("name")
     phone = request.form.get("phone")
     req = {'goal': goal, 'time': time, 'name': name, 'phone': phone}
-    requests = read_data_from_json_file('booking.json')
+    requests = read_data_from_json_file('request.json')
     requests.append(req)
-    write_data_to_json_file('booking.json', requests)
+    write_data_to_json_file('request.json', requests)
     return render_template('request_done.html',
                            goal=goal,
                            time=time,
@@ -124,6 +124,11 @@ def route_booking_done():
     client_phone = request.form.get("clientPhone")
     teachers[int(client_teacher)]["free"][client_weekday][client_time] = False
     write_data_to_json_file('data_base.json', teachers)
+
+    bookings = read_data_from_json_file('booking.json')
+    bookings.append((client_name, client_phone, client_weekday, client_time))
+    write_data_to_json_file('booking.json', bookings)
+
     client_weekday = days[client_weekday]
     return render_template('booking_done.html',
                            day=client_weekday,

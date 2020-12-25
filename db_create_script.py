@@ -10,5 +10,8 @@ try:
     with open('booking.json', 'w') as jf:
         json.dump([], jf)
 
+    with open('request.json', 'w') as jf:
+        json.dump([], jf)
+
 except IOError:
     print("An IOError has occurred!")
